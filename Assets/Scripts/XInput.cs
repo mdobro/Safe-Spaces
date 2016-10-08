@@ -2,14 +2,12 @@
 using System.Collections;
 
 public class XInput : MonoBehaviour {
-
+	public static XInput x;
 	public static string XboxA, XboxB, XboxX, XboxY, XboxLStickX, XboxLStickY, XboxRStickX, XboxRStickY, XboxRB, XboxLB, XboxStart, XboxBack, XboxRT, XboxLT;
-
-	bool unpressedRT = true;
-	bool unpressedLT = true;
 
 	// Use this for initialization
 	void Start () {
+		x = this;
 		// Setup Input
 		if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor) {
 			XboxA = "Win_Xbox_A";
@@ -48,29 +46,34 @@ public class XInput : MonoBehaviour {
 	void Update () {
 		// Debug Input
 		DebugInput();
-
-		if (Input.GetAxis (XboxRT) < 0.8) {
-			unpressedRT = true;
-		}
-		if (Input.GetAxis (XboxLT) < 0.8) {
-			unpressedLT = true;
-		}
 	}
 
 	// Get RT and LT Presses
-	bool RTDown() {
-		if (Input.GetAxis (XboxRT) > 0.8 && unpressedRT) {
-			unpressedRT = false;
-			return true;
+	public bool RTDown() {
+		if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor) {
+			if (Input.GetAxis (XboxRT) > 0.9) {
+				return true;
+			}
+		} else {
+			if (Input.GetAxis (XboxRT) > 0.8) {
+				return true;
+			}
 		}
+
 		return false;
 	}
 
-	bool LTDown() {
-		if (Input.GetAxis (XboxLT) > 0.8 && unpressedLT) {
-			unpressedLT = false;
-			return true;
+	public bool LTDown() {
+		if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor) {
+			if (Input.GetAxis (XboxLT) > 0.9) {
+				return true;
+			}
+		} else {
+			if (Input.GetAxis (XboxLT) > 0.8) {
+				return true;
+			}
 		}
+
 		return false;
 	}
 
