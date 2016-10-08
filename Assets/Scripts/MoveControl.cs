@@ -27,15 +27,15 @@ public class MoveControl : MonoBehaviour {
 
 	void Update () {
 		// Update colors
-		if (Input.GetButtonDown ("Xbox_A")) playerColor = SphereColor.green;
-		if (Input.GetButtonDown ("Xbox_B")) playerColor = SphereColor.red;
-		if (Input.GetButtonDown ("Xbox_X")) playerColor = SphereColor.blue;
-		if (Input.GetButtonDown ("Xbox_Y")) playerColor = SphereColor.yellow;
+		if (Input.GetButtonDown (XInput.XboxA)) playerColor = SphereColor.green;
+		if (Input.GetButtonDown (XInput.XboxB)) playerColor = SphereColor.red;
+		if (Input.GetButtonDown (XInput.XboxX)) playerColor = SphereColor.blue;
+		if (Input.GetButtonDown (XInput.XboxY)) playerColor = SphereColor.yellow;
 	}
 	
 	void FixedUpdate () {
 		// Movement code
-		Vector3 moveDir = new Vector3 (Input.GetAxis ("Horizontal"), 0, 0);
+		Vector3 moveDir = new Vector3 (Input.GetAxis (XInput.XboxLStickX), 0, 0);
 
 		rigid.drag = Mathf.Lerp (maxDrag, 0, moveDir.magnitude);
 
