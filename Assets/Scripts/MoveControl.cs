@@ -23,12 +23,17 @@ public class MoveControl : MonoBehaviour {
 	public bool walledLeft = false;
 	public bool walledRight = false;
 	public bool jumping = false;
+	public float pointAngle = 0f;
 	LayerMask[] groundLayerMask;
+	SpriteRenderer hookSprite;
+	GameObject playerHook;
 
 	void Start () {
 		// Get components
 		meshRend = GetComponent <MeshRenderer> ();
 		rigid = GetComponent<Rigidbody> ();
+		playerHook = GameObject.Find ("HookedIndicator");
+		hookSprite = playerHook.transform.Find ("Sprite").GetComponent<SpriteRenderer> ();
 
 		groundLayerMask = new LayerMask[4];
 		groundLayerMask [0] = LayerMask.GetMask ("Object_Default", "Object_Red");
@@ -44,8 +49,7 @@ public class MoveControl : MonoBehaviour {
 		if (Input.GetButtonDown (XInput.XboxX)) playerColor = SphereColor.blue;
 		if (Input.GetButtonDown (XInput.XboxY)) playerColor = SphereColor.yellow;
 
-		// Player jumping
-
+		//////////Player jumping//////////
 		// Normal jump
 		if (XInput.x.RTDown() && grounded) {
 			jumping = true;
@@ -58,16 +62,25 @@ public class MoveControl : MonoBehaviour {
 		if (XInput.x.RTDown () && walledLeft) {
 			jumping = true;
 			Vector3 vec = rigid.velocity;
-			vec.y = jumpSpeed;
-			vec.x = jumpSpeed / 1.5f;
+			vec.y = jumpSpeed / 1.155f;
+			if (vec.x < jumpSpeed / 3f) {
+				vec.x = jumpSpeed / 3f;
+			} else {
+				vec.x = -vec.x;
+			}
 			rigid.velocity = vec;
 		}
+
 		// Wall jump right
 		if (XInput.x.RTDown () && walledRight) {
 			jumping = true;
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed;
-			vec.x = -jumpSpeed / 1.5f;
+			if (vec.x > -jumpSpeed / 3f) {
+				vec.x = -jumpSpeed / 3f;
+			} else {
+				vec.x = -vec.x;
+			}
 			rigid.velocity = vec;
 		}
 
@@ -78,6 +91,18 @@ public class MoveControl : MonoBehaviour {
 			vec.y = vec.y / 3;
 			rigid.velocity = vec;
 		}
+
+		//////////Hook Indicator////////// 
+		// Get indicator angle
+		if (Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) {
+			pointAngle = 180f / Mathf.PI * Mathf.Atan2(Input.GetAxis(XInput.XboxRStickX), Input.GetAxis(XInput.XboxRStickY)) - 90;
+			hookSprite.enabled = true;
+		} else {
+			hookSprite.enabled = false;
+		}
+
+		// Rotate indicator
+		playerHook.transform.eulerAngles = new Vector3 (0f, 0f, pointAngle);
 	}
 	
 	void FixedUpdate () {
@@ -90,17 +115,13 @@ public class MoveControl : MonoBehaviour {
 			jumping = false;
 		}
 
-		// Movement code
+		//////////Player Movement//////////
 		Vector3 moveDir = new Vector3 (Input.GetAxis (XInput.XboxLStickX), 0, 0);
-
 		if (!grounded) {
 			rigid.drag = 0;
 		} else {
 			rigid.drag = Mathf.Lerp (maxDrag, 0, moveDir.magnitude);
 		}
-
-		// Adjust drag if not grounded!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 		float forceApp = Mathf.Clamp ((maxSpeed - GetComponent<Rigidbody> ().velocity.magnitude) / maxSpeed, 0, 1);
 		rigid.AddForce (moveDir * forceApp * moveForce);
 	}
