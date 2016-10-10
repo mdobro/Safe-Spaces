@@ -18,16 +18,16 @@ public class Powerup : MonoBehaviour {
 	void Start () {
 		switch (type) {
 		case Powerup_type.Blue:
-			GetComponent<Renderer> ().material = Resources.Load ("Materials/SphereMatBlue") as Material;
+			transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/SphereMatBlue") as Material;
 			break;
 		case Powerup_type.Green:
-			GetComponent<Renderer> ().material = Resources.Load ("Materials/SphereMatGreen") as Material;
+			transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/SphereMatGreen") as Material;
 			break;
 		case Powerup_type.Yellow:
-			GetComponent<Renderer> ().material = Resources.Load ("Materials/SphereMatYellow") as Material;
+			transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/SphereMatYellow") as Material;
 			break;
 		case Powerup_type.Grapple:
-			//GetComponent<Renderer> ().material = Resources.Load ("Materials/") as Material;
+			//transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/") as Material;
 			break;
 		}
 	}
@@ -37,9 +37,10 @@ public class Powerup : MonoBehaviour {
 	
 	}
 
-	void OnTriggerEnter(Collider coll) {
+	void OnCollisionEnter(Collision coll) {
 		//give player powerup
 		if (coll.gameObject.tag == "Player") {
+			Destroy (this.gameObject);
 			switch (type) {
 			case Powerup_type.Blue:
 				PlayerControl.instance.allowsBlue = true;
