@@ -5,7 +5,9 @@ public enum SphereColor {
 	red, blue, green, yellow
 }
 
-public class MoveControl : MonoBehaviour {
+public class PlayerControl : MonoBehaviour {
+
+	static public PlayerControl instance;
 
 	public float moveForce = 5f;
 	public float jumpSpeed = 10f;
@@ -18,6 +20,8 @@ public class MoveControl : MonoBehaviour {
 	MeshRenderer meshRend;
 	Rigidbody rigid;
 	public SphereColor _playerColor = SphereColor.red;
+	public int currentRoomNumber = 1;
+	public Vector3 currentSpawnPoint;
 
 	public bool grounded = true;
 	public bool walledLeft = false;
@@ -30,6 +34,7 @@ public class MoveControl : MonoBehaviour {
 
 	void Start () {
 		// Get components
+		instance = this;
 		meshRend = GetComponent <MeshRenderer> ();
 		rigid = GetComponent<Rigidbody> ();
 		playerHook = GameObject.Find ("HookedIndicator");
@@ -43,6 +48,11 @@ public class MoveControl : MonoBehaviour {
 	}
 
 	void Update () {
+
+		if (transform.position.y < -5) {
+			//fell, respawn at currentSpawnPoint\
+			transform.position = currentSpawnPoint;
+		}
 		// Update colors
 		if (Input.GetButtonDown (XInput.XboxA)) playerColor = SphereColor.green;
 		if (Input.GetButtonDown (XInput.XboxB)) playerColor = SphereColor.red;
