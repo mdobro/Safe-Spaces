@@ -34,16 +34,18 @@ public class Pipe : MonoBehaviour {
 		}
 	}
 
-	void OnTriggerEnter() {
-		//move player to next room spawn point(tmp)
-		PlayerControl.instance.currentRoomNumber++;
-		GameObject nextRoom = GameObject.Find ("Room_" + PlayerControl.instance.currentRoomNumber);
-		//find spawn point
-		Transform spawnPoint = nextRoom.transform.FindChild("Spawn_Point");
-		//move player to spawn point
-		PlayerControl.instance.transform.position = spawnPoint.position;
-		PlayerControl.instance.currentSpawnPoint = spawnPoint.position;
-		//set the camera's maxXY and minXY in case the next room is bigger or smaller than the currentRoom
-		FollowCam.instance.SetXYBounds(nextRoom);
+	void OnTriggerEnter(Collider coll) {
+		if (coll.gameObject.tag == "Player") {
+			//move player to next room spawn point(tmp)
+			PlayerControl.instance.currentRoomNumber++;
+			GameObject nextRoom = GameObject.Find ("Room_" + PlayerControl.instance.currentRoomNumber);
+			//find spawn point
+			Transform spawnPoint = nextRoom.transform.FindChild("Spawn_Point");
+			//move player to spawn point
+			PlayerControl.instance.transform.position = spawnPoint.position;
+			PlayerControl.instance.currentSpawnPoint = spawnPoint.position;
+			//set the camera's maxXY and minXY in case the next room is bigger or smaller than the currentRoom
+			FollowCam.instance.SetXYBounds(nextRoom);
+		}
 	}
 }

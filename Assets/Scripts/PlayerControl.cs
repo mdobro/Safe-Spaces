@@ -31,6 +31,10 @@ public class PlayerControl : MonoBehaviour {
 	LayerMask[] groundLayerMask;
 	SpriteRenderer hookSprite;
 	GameObject playerHook;
+	public bool allowsGreen = false;
+	public bool allowsBlue = false;
+	public bool allowsYellow = false;
+	public bool allowsGrapple = false;
 
 	void Start () {
 		// Get components
@@ -45,6 +49,8 @@ public class PlayerControl : MonoBehaviour {
 		groundLayerMask [1] = LayerMask.GetMask ("Object_Default", "Object_Blue");
 		groundLayerMask [2] = LayerMask.GetMask ("Object_Default", "Object_Green");
 		groundLayerMask [3] = LayerMask.GetMask ("Object_Default", "Object_Yellow");
+
+
 	}
 
 	void Update () {
@@ -54,10 +60,10 @@ public class PlayerControl : MonoBehaviour {
 			transform.position = currentSpawnPoint;
 		}
 		// Update colors
-		if (Input.GetButtonDown (XInput.XboxA)) playerColor = SphereColor.green;
+		if (Input.GetButtonDown (XInput.XboxA) && allowsGreen) playerColor = SphereColor.green;
 		if (Input.GetButtonDown (XInput.XboxB)) playerColor = SphereColor.red;
-		if (Input.GetButtonDown (XInput.XboxX)) playerColor = SphereColor.blue;
-		if (Input.GetButtonDown (XInput.XboxY)) playerColor = SphereColor.yellow;
+		if (Input.GetButtonDown (XInput.XboxX) && allowsBlue) playerColor = SphereColor.blue;
+		if (Input.GetButtonDown (XInput.XboxY) && allowsYellow) playerColor = SphereColor.yellow;
 
 		//////////Player jumping//////////
 		// Normal jump
@@ -165,5 +171,4 @@ public class PlayerControl : MonoBehaviour {
 			}
 		}
 	}
-
 }
