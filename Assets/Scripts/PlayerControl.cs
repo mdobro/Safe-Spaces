@@ -26,7 +26,7 @@ public class PlayerControl : MonoBehaviour {
 	public bool grounded = true;
 	public bool walledLeft = false;
 	public bool walledRight = false;
-	public bool jumping = false;
+	public float jumping = 0f;
 	public float pointAngle = 0f;
 	LayerMask[] groundLayerMask;
 	SpriteRenderer hookSprite;
@@ -69,7 +69,18 @@ public class PlayerControl : MonoBehaviour {
 		//////////Player jumping//////////
 		// Normal jump
 		if (XInput.x.RTDown() && grounded) {
-			jumping = true;
+			jumping = 1;
+			Vector3 vec = rigid.velocity;
+			vec.y = jumpSpeed;
+			rigid.velocity = vec;
+		}
+			
+		// Double jump if blue
+		if (!XInput.x.RTDown () && jumping == 1) {
+			jumping = 2;
+		}
+		if (XInput.x.RTDown () && jumping == 2 && !grounded && !walledLeft && !walledRight && playerColor == SphereColor.blue) {
+			jumping = 3;
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed;
 			rigid.velocity = vec;
@@ -77,7 +88,7 @@ public class PlayerControl : MonoBehaviour {
 
 		// Wall jump left
 		if (XInput.x.RTDown () && walledLeft) {
-			jumping = true;
+			jumping = 1;
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed / 1.155f;
 			if (vec.x < jumpSpeed / 3f) {
@@ -90,7 +101,7 @@ public class PlayerControl : MonoBehaviour {
 
 		// Wall jump right
 		if (XInput.x.RTDown () && walledRight) {
-			jumping = true;
+			jumping = 1;
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed;
 			if (vec.x > -jumpSpeed / 3f) {
@@ -102,8 +113,7 @@ public class PlayerControl : MonoBehaviour {
 		}
 
 		// Stop jump
-		if (!XInput.x.RTDown () && jumping && rigid.velocity.y > 0) {
-			jumping = false;
+		if (!XInput.x.RTDown () && jumping > 0 && rigid.velocity.y > 0) {
 			Vector3 vec = rigid.velocity;
 			vec.y = vec.y / 3;
 			rigid.velocity = vec;
@@ -129,7 +139,7 @@ public class PlayerControl : MonoBehaviour {
 		walledRight = Physics.Raycast (transform.position, Vector3.right, GetComponent<SphereCollider> ().radius * 1.1f, groundLayerMask [(int)playerColor]);
 
 		if (grounded) {
-			jumping = false;
+			jumping = 0;
 		}
 
 		//////////Player Movement//////////
@@ -142,6 +152,8 @@ public class PlayerControl : MonoBehaviour {
 		float forceApp = 0;
 		if ((rigid.velocity.x > 0 && moveDir.x < 0) || (rigid.velocity.x < 0 && moveDir.x > 0)) {
 			forceApp = 1;
+		} else if ((walledLeft && moveDir.x < 0) || (walledRight && moveDir.x > 0)) {
+			forceApp = 0;
 		} else {
 			forceApp = Mathf.Clamp ((maxSpeed - Mathf.Abs(GetComponent<Rigidbody> ().velocity.x)) / maxSpeed, 0, 1);
 		}
