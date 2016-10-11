@@ -139,7 +139,12 @@ public class PlayerControl : MonoBehaviour {
 		} else {
 			rigid.drag = Mathf.Lerp (maxDrag, 0, moveDir.magnitude);
 		}
-		float forceApp = Mathf.Clamp ((maxSpeed - GetComponent<Rigidbody> ().velocity.magnitude) / maxSpeed, 0, 1);
+		float forceApp = 0;
+		if ((rigid.velocity.x > 0 && moveDir.x < 0) || (rigid.velocity.x < 0 && moveDir.x > 0)) {
+			forceApp = 1;
+		} else {
+			forceApp = Mathf.Clamp ((maxSpeed - Mathf.Abs(GetComponent<Rigidbody> ().velocity.x)) / maxSpeed, 0, 1);
+		}
 		rigid.AddForce (moveDir * forceApp * moveForce);
 	}
 
