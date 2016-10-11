@@ -19,6 +19,7 @@ public class PlayerControl : MonoBehaviour {
 	public bool ________________;
 
 	public SpriteRenderer spRendMain, spRend1, spRend2, spRend3;
+	public TrailRenderer trail1, trail2, trail3;
 	Rigidbody rigid;
 	public SphereColor _playerColor = SphereColor.red;
 	public int currentRoomNumber = 1;
@@ -44,6 +45,9 @@ public class PlayerControl : MonoBehaviour {
 		spRend1 = GameObject.Find ("Player").transform.Find ("Sprite1").GetComponent<SpriteRenderer> ();
 		spRend2 = GameObject.Find ("Player").transform.Find ("Sprite2").GetComponent<SpriteRenderer> ();
 		spRend3 = GameObject.Find ("Player").transform.Find ("Sprite3").GetComponent<SpriteRenderer> ();
+		trail1 = GameObject.Find ("Player").transform.Find ("Sprite1").GetComponent<TrailRenderer> ();
+		trail2 = GameObject.Find ("Player").transform.Find ("Sprite2").GetComponent<TrailRenderer> ();
+		trail3 = GameObject.Find ("Player").transform.Find ("Sprite3").GetComponent<TrailRenderer> ();
 		rigid = GetComponent<Rigidbody> ();
 		playerHook = GameObject.Find ("HookedIndicator");
 		hookSprite = playerHook.transform.Find ("Sprite").GetComponent<SpriteRenderer> ();
@@ -183,10 +187,13 @@ public class PlayerControl : MonoBehaviour {
 					temp = new Color (1f, 0f, 0f);
 					if (spRend1.color == temp) {
 						spRend1.color = spRendMain.color;
+						trail1.material.SetColor ("_TintColor", spRendMain.color);
 					} else if (spRend2.color == temp) {
 						spRend2.color = spRendMain.color;
+						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
 						spRend3.color = spRendMain.color;
+						trail3.material.SetColor ("_TintColor", spRendMain.color);
 					}
 					spRendMain.color = temp;
 					gameObject.layer = 8;
@@ -195,10 +202,13 @@ public class PlayerControl : MonoBehaviour {
 					temp = new Color (0f, 0f, 1f);
 					if (spRend1.color == temp) {
 						spRend1.color = spRendMain.color;
+						trail1.material.SetColor ("_TintColor", spRendMain.color);
 					} else if (spRend2.color == temp) {
 						spRend2.color = spRendMain.color;
+						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
 						spRend3.color = spRendMain.color;
+						trail3.material.SetColor ("_TintColor", spRendMain.color);
 					}
 					spRendMain.color = temp;
 					gameObject.layer = 9;
