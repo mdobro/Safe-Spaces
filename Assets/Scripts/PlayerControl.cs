@@ -59,8 +59,8 @@ public class PlayerControl : MonoBehaviour {
 
 	void Update () {
 
-		if (transform.position.y < -5) {
-			//fell, respawn at currentSpawnPoint\
+		if (Input.GetButtonDown(XInput.XboxStart)) {
+			//fell, respawn at currentSpawnPoint
 			transform.position = currentSpawnPoint;
 		}
 		// Update colors
@@ -169,7 +169,7 @@ public class PlayerControl : MonoBehaviour {
 			if (_playerColor == value)
 				return;
 			else {
-				Color temp;
+				Color temp = Color.black;
 				switch (value) {
 				case SphereColor.red:
 					temp = new Color (1f, 0f, 0f);
@@ -220,7 +220,7 @@ public class PlayerControl : MonoBehaviour {
 					gameObject.layer = 11;
 					break;
 				}
-
+				transform.FindChild("Light").GetComponent<Light> ().color = temp;
 				_playerColor = value;
 			}
 		}
