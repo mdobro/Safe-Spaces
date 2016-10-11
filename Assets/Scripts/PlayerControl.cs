@@ -50,6 +50,7 @@ public class PlayerControl : MonoBehaviour {
 		groundLayerMask [2] = LayerMask.GetMask ("Object_Default", "Object_Green");
 		groundLayerMask [3] = LayerMask.GetMask ("Object_Default", "Object_Yellow");
 
+		currentSpawnPoint = transform.position;
 
 	}
 
@@ -170,5 +171,9 @@ public class PlayerControl : MonoBehaviour {
 				_playerColor = value;
 			}
 		}
+	}
+
+	public void resetPlayerToCurrentSpawn() {
+		transform.position = currentSpawnPoint;
 	}
 }
