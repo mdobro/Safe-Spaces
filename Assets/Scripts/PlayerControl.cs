@@ -13,6 +13,7 @@ public class PlayerControl : MonoBehaviour {
 	public float jumpSpeed = 10f;
 	public float maxSpeed = 10f;
 	public float maxDrag = 10f;
+	public float maxFallSpeedYellow = -3f;
 	public Material[] playerMats;
 
 	public bool ________________;
@@ -126,6 +127,13 @@ public class PlayerControl : MonoBehaviour {
 			jumping = 3;
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed;
+			rigid.velocity = vec;
+		}
+
+		// Glide if yellow
+		if (XInput.x.RTDown () && jumping > 0 && playerColor == SphereColor.yellow && rigid.velocity.y < maxFallSpeedYellow) {
+			Vector3 vec = rigid.velocity;
+			vec.y = maxFallSpeedYellow;
 			rigid.velocity = vec;
 		}
 
