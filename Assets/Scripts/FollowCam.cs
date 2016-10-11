@@ -5,48 +5,46 @@ public class FollowCam : MonoBehaviour {
 
 	static public FollowCam instance;
 
-	public float XWallOffset;
-	public float YWallOffset;
-	public bool boundsOn; //for testing purposes
+	public Transform        poi; // The Point Of Interest of the CameraFollow script. - JB
+	public Vector3          offset = new Vector3(0,1,-10);
+	public float            easingU = 0.05f;
 
-	public bool ___________________;
+	private Camera          cam;
 
-	public float minX; // min Y is preset in Unity
-	public Vector2 maxXY;
-
-	private Vector3 offset;
-
-	// Use this for initialization
-	void Start () {
-		offset = transform.position;
+	void Awake () {
 		instance = this;
-		GameObject currentRoom = GameObject.Find("Room_1");
-		SetXYBounds (currentRoom);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		//update the 
-		Vector3 newPos = PlayerControl.instance.transform.position;
-		newPos.y += offset.y;
-		newPos.z += offset.z;
-		if (boundsOn) {
-			if (newPos.x > maxXY.x)
-				newPos.x = maxXY.x;
-			if (newPos.x < minX)
-				newPos.x = minX;
-			if (newPos.y > maxXY.y)
-				newPos.y = maxXY.y;
-		}
-		transform.position = newPos;
+
+		cam = GetComponent<Camera>();
+
+		// Initially position the camera exactly over the poi - JB
+		transform.position = poi.position + offset;
 	}
 
-	public void SetXYBounds(GameObject room) {
-		float floorCenter = room.transform.position.x;
-		float floorLength = room.transform.FindChild ("Ceiling").transform.lossyScale.z;
-		minX = floorCenter - floorLength / 2 + XWallOffset;
-		float maxX = floorCenter + floorLength / 2 - XWallOffset;
-		float maxY = room.transform.FindChild ("Wall").transform.lossyScale.y - YWallOffset;
-		maxXY = new Vector2 (maxX, maxY);
+	// Update is called once per frame - JB
+	void FixedUpdate () {
+		if (poi != null) {
+			Vector3 p0, p1, p01;
+
+			p0 = transform.position;
+			p1 = poi.position + offset;
+
+			// Linear Interpolation - Look it up in Appendix B - JB
+			p01 = (1 - easingU) * p0 + easingU * p1;
+
+			p01.x = RoundToNearestPixel (p01.x, cam);
+			p01.y = RoundToNearestPixel (p01.y, cam);
+
+			transform.position = p01;
+		}
+	}
+
+
+	// From https://www.reddit.com/r/Unity3D/comments/34ip2j/gaps_between_tiled_sprites_help/ - JB
+	private float RoundToNearestPixel(float unityUnits, Camera viewingCamera)
+	{
+		float valueInPixels = (Screen.height / (viewingCamera.orthographicSize * 2)) * unityUnits;
+		valueInPixels = Mathf.Round(valueInPixels);
+		float adjustedUnityUnits = valueInPixels / (Screen.height / (viewingCamera.orthographicSize * 2));
+		return adjustedUnityUnits;
 	}
 }

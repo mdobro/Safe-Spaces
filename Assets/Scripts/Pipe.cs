@@ -45,7 +45,7 @@ public class Pipe : MonoBehaviour {
 			PlayerControl.instance.transform.position = spawnPoint.position;
 			PlayerControl.instance.currentSpawnPoint = spawnPoint.position;
 			//set the camera's maxXY and minXY in case the next room is bigger or smaller than the currentRoom
-			FollowCam.instance.SetXYBounds(nextRoom);
+			//FollowCam.instance.SetXYBounds(nextRoom);
 		}
 	}
 }
