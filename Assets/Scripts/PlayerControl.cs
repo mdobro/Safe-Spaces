@@ -111,7 +111,7 @@ public class PlayerControl : MonoBehaviour {
 
 		//////////Player jumping//////////
 		// Normal jump
-		if (XInput.x.RTDown() && grounded) {
+		if (XInput.x.RTDown() && jumping == 0) {
 			jumping = 1;
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed;
@@ -169,21 +169,54 @@ public class PlayerControl : MonoBehaviour {
 			if (_playerColor == value)
 				return;
 			else {
+				Color temp;
 				switch (value) {
 				case SphereColor.red:
-					spRendMain.color = new Color (1f, 0f, 0f);
+					temp = new Color (1f, 0f, 0f);
+					if (spRend1.color == temp) {
+						spRend1.color = spRendMain.color;
+					} else if (spRend2.color == temp) {
+						spRend2.color = spRendMain.color;
+					} else {
+						spRend3.color = spRendMain.color;
+					}
+					spRendMain.color = temp;
 					gameObject.layer = 8;
 					break;
 				case SphereColor.blue:
-					spRendMain.color = new Color (0f, 0f, 1f);
+					temp = new Color (0f, 0f, 1f);
+					if (spRend1.color == temp) {
+						spRend1.color = spRendMain.color;
+					} else if (spRend2.color == temp) {
+						spRend2.color = spRendMain.color;
+					} else {
+						spRend3.color = spRendMain.color;
+					}
+					spRendMain.color = temp;
 					gameObject.layer = 9;
 					break;
 				case SphereColor.green:
-					spRendMain.color = new Color (0f, 1f, 0f);
+					temp = new Color (0f, 1f, 0f);
+					if (spRend1.color == temp) {
+						spRend1.color = spRendMain.color;
+					} else if (spRend2.color == temp) {
+						spRend2.color = spRendMain.color;
+					} else {
+						spRend3.color = spRendMain.color;
+					}
+					spRendMain.color = temp;
 					gameObject.layer = 10;
 					break;
 				case SphereColor.yellow:
-					spRendMain.color = new Color (1f, 1f, 0f);
+					temp = new Color (1f, 1f, 0f);
+					if (spRend1.color == temp) {
+						spRend1.color = spRendMain.color;
+					} else if (spRend2.color == temp) {
+						spRend2.color = spRendMain.color;
+					} else {
+						spRend3.color = spRendMain.color;
+					}
+					spRendMain.color = temp;
 					gameObject.layer = 11;
 					break;
 				}
