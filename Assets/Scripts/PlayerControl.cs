@@ -196,7 +196,7 @@ public class PlayerControl : MonoBehaviour {
 					gameObject.layer = 9;
 					break;
 				case SphereColor.green:
-					temp = new Color (0f, 1f, 0f);
+					temp = new Color (0f, 150f/255f, 0f);
 					if (spRend1.color == temp) {
 						spRend1.color = spRendMain.color;
 					} else if (spRend2.color == temp) {
