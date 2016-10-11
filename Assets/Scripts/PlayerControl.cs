@@ -130,7 +130,7 @@ public class PlayerControl : MonoBehaviour {
 		if (XInput.x.RTDown () && jumping == 2 && !grounded && !walledLeft && !walledRight && playerColor == SphereColor.blue) {
 			jumping = 3;
 			Vector3 vec = rigid.velocity;
-			vec.y = jumpSpeed;
+			vec.y = jumpSpeed / 1.7f;
 			rigid.velocity = vec;
 		}
 
@@ -146,8 +146,8 @@ public class PlayerControl : MonoBehaviour {
 			jumping = 1;
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed / 1.155f;
-			if (vec.x < jumpSpeed / 3f) {
-				vec.x = jumpSpeed / 3f;
+			if (vec.x < jumpSpeed / 2f) {
+				vec.x = jumpSpeed / 2f;
 			} else {
 				vec.x = -vec.x;
 			}
@@ -159,8 +159,8 @@ public class PlayerControl : MonoBehaviour {
 			jumping = 1;
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed;
-			if (vec.x > -jumpSpeed / 3f) {
-				vec.x = -jumpSpeed / 3f;
+			if (vec.x > -jumpSpeed / 2f) {
+				vec.x = -jumpSpeed / 2f;
 			} else {
 				vec.x = -vec.x;
 			}
