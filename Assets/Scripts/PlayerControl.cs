@@ -17,7 +17,7 @@ public class PlayerControl : MonoBehaviour {
 
 	public bool ________________;
 
-	MeshRenderer meshRend;
+	public SpriteRenderer spRendMain, spRend1, spRend2, spRend3;
 	Rigidbody rigid;
 	public SphereColor _playerColor = SphereColor.red;
 	public int currentRoomNumber = 1;
@@ -39,7 +39,10 @@ public class PlayerControl : MonoBehaviour {
 	void Start () {
 		// Get components
 		instance = this;
-		meshRend = GetComponent <MeshRenderer> ();
+		spRendMain = GameObject.Find ("Player").transform.Find ("SpriteMain").GetComponent<SpriteRenderer> ();
+		spRend1 = GameObject.Find ("Player").transform.Find ("Sprite1").GetComponent<SpriteRenderer> ();
+		spRend2 = GameObject.Find ("Player").transform.Find ("Sprite2").GetComponent<SpriteRenderer> ();
+		spRend3 = GameObject.Find ("Player").transform.Find ("Sprite3").GetComponent<SpriteRenderer> ();
 		rigid = GetComponent<Rigidbody> ();
 		playerHook = GameObject.Find ("HookedIndicator");
 		hookSprite = playerHook.transform.Find ("Sprite").GetComponent<SpriteRenderer> ();
@@ -168,19 +171,19 @@ public class PlayerControl : MonoBehaviour {
 			else {
 				switch (value) {
 				case SphereColor.red:
-					meshRend.material = playerMats [(int)value];
+					spRendMain.color = new Color (1f, 0f, 0f);
 					gameObject.layer = 8;
 					break;
 				case SphereColor.blue:
-					meshRend.material = playerMats [(int)value];
+					spRendMain.color = new Color (0f, 0f, 1f);
 					gameObject.layer = 9;
 					break;
 				case SphereColor.green:
-					meshRend.material = playerMats [(int)value];
+					spRendMain.color = new Color (0f, 1f, 0f);
 					gameObject.layer = 10;
 					break;
 				case SphereColor.yellow:
-					meshRend.material = playerMats [(int)value];
+					spRendMain.color = new Color (1f, 1f, 0f);
 					gameObject.layer = 11;
 					break;
 				}
