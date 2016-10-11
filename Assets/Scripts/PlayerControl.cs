@@ -94,11 +94,11 @@ public class PlayerControl : MonoBehaviour {
 
 		//////////Player Movement//////////
 		Vector3 moveDir = new Vector3 (Input.GetAxis (XInput.XboxLStickX), 0, 0);
-		if (!grounded) {
-			rigid.drag = 0;
-		} else {
-			rigid.drag = Mathf.Lerp (maxDrag, 0, moveDir.magnitude);
-		}
+//		if (!grounded) {
+//			rigid.drag = 0;
+//		} else {
+//			rigid.drag = Mathf.Lerp (maxDrag, 0, moveDir.magnitude);
+//		}
 		float forceApp = 0;
 		if ((rigid.velocity.x > 0 && moveDir.x < 0) || (rigid.velocity.x < 0 && moveDir.x > 0)) {
 			forceApp = 1;
