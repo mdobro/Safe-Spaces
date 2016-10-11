@@ -49,13 +49,13 @@ public class Powerup : MonoBehaviour {
 				break;
 			case Powerup_type.Green:
 				PlayerControl.instance.allowsGreen = true;
-				PlayerControl.instance.spRend2.color = new Color (0f, 150f/255f, 0f);
-				PlayerControl.instance.trail2.material.SetColor ("_TintColor", new Color (0f, 150f/255f, 0f));
+				PlayerControl.instance.spRend3.color = new Color (0f, 150f/255f, 0f);
+				PlayerControl.instance.trail3.material.SetColor ("_TintColor", new Color (0f, 150f/255f, 0f));
 				break;
 			case Powerup_type.Yellow:
 				PlayerControl.instance.allowsYellow = true;
-				PlayerControl.instance.spRend3.color = new Color (1f, 1f, 0f);
-				PlayerControl.instance.trail3.material.SetColor ("_TintColor", new Color (1f, 1f, 0f));
+				PlayerControl.instance.spRend2.color = new Color (1f, 1f, 0f);
+				PlayerControl.instance.trail2.material.SetColor ("_TintColor", new Color (1f, 1f, 0f));
 				break;
 			case Powerup_type.Grapple:
 				PlayerControl.instance.allowsGrapple = true;
