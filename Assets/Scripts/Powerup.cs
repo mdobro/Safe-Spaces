@@ -48,11 +48,11 @@ public class Powerup : MonoBehaviour {
 				break;
 			case Powerup_type.Green:
 				PlayerControl.instance.allowsGreen = true;
-				PlayerControl.instance.spRend1.color = new Color (0f, 1f, 0f);
+				PlayerControl.instance.spRend2.color = new Color (0f, 1f, 0f);
 				break;
 			case Powerup_type.Yellow:
 				PlayerControl.instance.allowsYellow = true;
-				PlayerControl.instance.spRend1.color = new Color (1f, 1f, 0f);
+				PlayerControl.instance.spRend3.color = new Color (1f, 1f, 0f);
 				break;
 			case Powerup_type.Grapple:
 				PlayerControl.instance.allowsGrapple = true;
