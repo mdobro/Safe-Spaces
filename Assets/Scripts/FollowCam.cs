@@ -20,6 +20,17 @@ public class FollowCam : MonoBehaviour {
 		transform.position = poi.position + offset;
 	}
 
+	void Update () {
+		if (Input.GetButtonDown (XInput.XboxBack)) {
+			if (offset.z == -15f) {
+				offset.z = -40f;
+			} else {
+				offset.z = -15f;
+			}
+		}
+		
+	}
+
 	// Update is called once per frame - JB
 	void FixedUpdate () {
 		if (poi != null) {
