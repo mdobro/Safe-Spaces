@@ -69,6 +69,46 @@ public class PlayerControl : MonoBehaviour {
 		if (Input.GetButtonDown (XInput.XboxX) && allowsBlue) playerColor = SphereColor.blue;
 		if (Input.GetButtonDown (XInput.XboxY) && allowsYellow) playerColor = SphereColor.yellow;
 
+		//////////Hook Indicator////////// 
+		// Get indicator angle
+		if (Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) {
+			pointAngle = 180f / Mathf.PI * Mathf.Atan2(Input.GetAxis(XInput.XboxRStickX), Input.GetAxis(XInput.XboxRStickY)) - 90;
+			hookSprite.enabled = true;
+		} else {
+			hookSprite.enabled = false;
+		}
+
+		// Rotate indicator
+		playerHook.transform.eulerAngles = new Vector3 (0f, 0f, pointAngle);
+	}
+	
+	void FixedUpdate () {
+		// Update grounded
+		grounded = Physics.Raycast (transform.position, Vector3.down, GetComponent<SphereCollider> ().radius * 1.1f, groundLayerMask [(int)playerColor]);
+		walledLeft = Physics.Raycast (transform.position, Vector3.left, GetComponent<SphereCollider> ().radius * 1.1f, groundLayerMask [(int)playerColor]);
+		walledRight = Physics.Raycast (transform.position, Vector3.right, GetComponent<SphereCollider> ().radius * 1.1f, groundLayerMask [(int)playerColor]);
+
+		if (grounded) {
+			jumping = 0;
+		}
+
+		//////////Player Movement//////////
+		Vector3 moveDir = new Vector3 (Input.GetAxis (XInput.XboxLStickX), 0, 0);
+		if (!grounded) {
+			rigid.drag = 0;
+		} else {
+			rigid.drag = Mathf.Lerp (maxDrag, 0, moveDir.magnitude);
+		}
+		float forceApp = 0;
+		if ((rigid.velocity.x > 0 && moveDir.x < 0) || (rigid.velocity.x < 0 && moveDir.x > 0)) {
+			forceApp = 1;
+		} else if ((walledLeft && moveDir.x < 0) || (walledRight && moveDir.x > 0)) {
+			forceApp = 0;
+		} else {
+			forceApp = Mathf.Clamp ((maxSpeed - Mathf.Abs(GetComponent<Rigidbody> ().velocity.x)) / maxSpeed, 0, 1);
+		}
+		rigid.AddForce (moveDir * forceApp * moveForce);
+
 		//////////Player jumping//////////
 		// Normal jump
 		if (XInput.x.RTDown() && grounded) {
@@ -77,7 +117,7 @@ public class PlayerControl : MonoBehaviour {
 			vec.y = jumpSpeed;
 			rigid.velocity = vec;
 		}
-			
+
 		// Double jump if blue
 		if (!XInput.x.RTDown () && jumping == 1) {
 			jumping = 2;
@@ -121,46 +161,6 @@ public class PlayerControl : MonoBehaviour {
 			vec.y = vec.y / 3;
 			rigid.velocity = vec;
 		}
-
-		//////////Hook Indicator////////// 
-		// Get indicator angle
-		if (Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) {
-			pointAngle = 180f / Mathf.PI * Mathf.Atan2(Input.GetAxis(XInput.XboxRStickX), Input.GetAxis(XInput.XboxRStickY)) - 90;
-			hookSprite.enabled = true;
-		} else {
-			hookSprite.enabled = false;
-		}
-
-		// Rotate indicator
-		playerHook.transform.eulerAngles = new Vector3 (0f, 0f, pointAngle);
-	}
-	
-	void FixedUpdate () {
-		// Update grounded
-		grounded = Physics.Raycast (transform.position, Vector3.down, GetComponent<SphereCollider> ().radius * 1.1f, groundLayerMask [(int)playerColor]);
-		walledLeft = Physics.Raycast (transform.position, Vector3.left, GetComponent<SphereCollider> ().radius * 1.1f, groundLayerMask [(int)playerColor]);
-		walledRight = Physics.Raycast (transform.position, Vector3.right, GetComponent<SphereCollider> ().radius * 1.1f, groundLayerMask [(int)playerColor]);
-
-		if (grounded) {
-			jumping = 0;
-		}
-
-		//////////Player Movement//////////
-		Vector3 moveDir = new Vector3 (Input.GetAxis (XInput.XboxLStickX), 0, 0);
-		if (!grounded) {
-			rigid.drag = 0;
-		} else {
-			rigid.drag = Mathf.Lerp (maxDrag, 0, moveDir.magnitude);
-		}
-		float forceApp = 0;
-		if ((rigid.velocity.x > 0 && moveDir.x < 0) || (rigid.velocity.x < 0 && moveDir.x > 0)) {
-			forceApp = 1;
-		} else if ((walledLeft && moveDir.x < 0) || (walledRight && moveDir.x > 0)) {
-			forceApp = 0;
-		} else {
-			forceApp = Mathf.Clamp ((maxSpeed - Mathf.Abs(GetComponent<Rigidbody> ().velocity.x)) / maxSpeed, 0, 1);
-		}
-		rigid.AddForce (moveDir * forceApp * moveForce);
 	}
 
 	public SphereColor playerColor {
