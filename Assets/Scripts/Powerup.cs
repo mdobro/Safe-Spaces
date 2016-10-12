@@ -43,7 +43,7 @@ public class Powerup : MonoBehaviour {
 	
 	}
 
-	void OnCollisionEnter(Collision coll) {
+	void OnTriggerEnter(Collider coll) {
 		//give player powerup
 		if (coll.gameObject.tag == "Player") {
 			Destroy (this.gameObject);
