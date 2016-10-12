@@ -263,7 +263,9 @@ public class PlayerControl : MonoBehaviour {
 			//add coin to player
 			coinCount++;
 			CoinText.GetComponent<Text> ().text = "Coins: " + coinCount;
-			Destroy(coll.gameObject);
+			Destroy (coll.gameObject);
+		} else if (coll.gameObject.tag == "Checkpoint") {
+			currentSpawnPoint = coll.transform.position;
 		}
 	}
 }
