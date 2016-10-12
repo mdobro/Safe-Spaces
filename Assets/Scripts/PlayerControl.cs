@@ -253,4 +253,11 @@ public class PlayerControl : MonoBehaviour {
 	public void resetPlayerToCurrentSpawn() {
 		transform.position = currentSpawnPoint;
 	}
+
+	void OnTriggerEnter(Collider coll) {
+		if (coll.gameObject.tag == "Coin") {
+			//add coin to player
+			Destroy(coll.gameObject);
+		}
+	}
 }
