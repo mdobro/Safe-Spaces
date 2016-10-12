@@ -16,19 +16,25 @@ public class Powerup : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		switch (type) {
-		case Powerup_type.Blue:
-			transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/SphereMatBlue") as Material;
-			break;
-		case Powerup_type.Green:
-			transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/SphereMatGreen") as Material;
-			break;
-		case Powerup_type.Yellow:
-			transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/SphereMatYellow") as Material;
-			break;
-		case Powerup_type.Grapple:
-			//transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/") as Material;
-			break;
+		foreach (Transform child in transform.FindChild("Sprite")) {
+			foreach (Transform comp in child) {
+				Color color = Color.black;
+				switch (type) {
+				case Powerup_type.Blue:
+					color = (Resources.Load ("Materials/SphereMatBlue") as Material).color;
+					break;
+				case Powerup_type.Green:
+					color = (Resources.Load ("Materials/SphereMatGreen") as Material).color;
+					break;
+				case Powerup_type.Yellow:
+					color = (Resources.Load ("Materials/SphereMatYellow") as Material).color;
+					break;
+				case Powerup_type.Grapple:
+				//transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/") as Material;
+					break;
+				}
+				comp.GetComponent<SpriteRenderer> ().color = color;
+			}
 		}
 	}
 	
