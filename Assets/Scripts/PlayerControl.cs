@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public enum SphereColor {
@@ -15,6 +16,7 @@ public class PlayerControl : MonoBehaviour {
 	public float maxDrag = 10f;
 	public float maxFallSpeedYellow = -3f;
 	public Material[] playerMats;
+	public GameObject CoinText;
 
 	public bool ________________;
 
@@ -37,6 +39,8 @@ public class PlayerControl : MonoBehaviour {
 	public bool allowsBlue = false;
 	public bool allowsYellow = false;
 	public bool allowsGrapple = false;
+
+	private int coinCount = 0;
 
 	void Start () {
 		// Get components
@@ -257,6 +261,8 @@ public class PlayerControl : MonoBehaviour {
 	void OnTriggerEnter(Collider coll) {
 		if (coll.gameObject.tag == "Coin") {
 			//add coin to player
+			coinCount++;
+			CoinText.GetComponent<Text> ().text = "Coins: " + coinCount;
 			Destroy(coll.gameObject);
 		}
 	}
