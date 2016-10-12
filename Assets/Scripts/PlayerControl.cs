@@ -217,10 +217,13 @@ public class PlayerControl : MonoBehaviour {
 					temp = new Color (0f, 150f/255f, 0f);
 					if (spRend1.color == temp) {
 						spRend1.color = spRendMain.color;
+						trail1.material.SetColor ("_TintColor", spRendMain.color);
 					} else if (spRend2.color == temp) {
 						spRend2.color = spRendMain.color;
+						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
 						spRend3.color = spRendMain.color;
+						trail3.material.SetColor ("_TintColor", spRendMain.color);
 					}
 					spRendMain.color = temp;
 					gameObject.layer = 10;
@@ -229,10 +232,13 @@ public class PlayerControl : MonoBehaviour {
 					temp = new Color (1f, 1f, 0f);
 					if (spRend1.color == temp) {
 						spRend1.color = spRendMain.color;
+						trail1.material.SetColor ("_TintColor", spRendMain.color);
 					} else if (spRend2.color == temp) {
 						spRend2.color = spRendMain.color;
+						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
 						spRend3.color = spRendMain.color;
+						trail3.material.SetColor ("_TintColor", spRendMain.color);
 					}
 					spRendMain.color = temp;
 					gameObject.layer = 11;
