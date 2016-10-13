@@ -22,10 +22,10 @@ public class FollowCam : MonoBehaviour {
 
 	void Update () {
 		if (Input.GetButtonDown (XInput.XboxBack)) {
-			if (offset.z == -15f) {
+			if (offset.z == -20f) {
 				offset.z = -40f;
 			} else {
-				offset.z = -15f;
+				offset.z = -20f;
 			}
 		}
 		
