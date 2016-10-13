@@ -47,9 +47,11 @@ public class Grapple : MonoBehaviour {
 	}
 
 	void OnTriggerEnter (Collider coll) {
-		if (coll.gameObject.tag != "Player") {
-			PlayerControl.instance.grappled = true;
-			pointAngle = -Mathf.Atan2 ((PlayerControl.instance.gameObject.transform.position - transform.position).x, (PlayerControl.instance.gameObject.transform.position - transform.position).y) - 90 * Mathf.PI / 180f;
+		if (coll.gameObject.tag == "Ground") {
+			if (coll.gameObject.transform.parent.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color == PlayerControl.instance.spRendMain.color || coll.gameObject.transform.parent.FindChild ("Sprite").GetComponent<SpriteRenderer> ().color == Color.white) {
+				PlayerControl.instance.grappled = true;
+				pointAngle = -Mathf.Atan2 ((PlayerControl.instance.gameObject.transform.position - transform.position).x, (PlayerControl.instance.gameObject.transform.position - transform.position).y) - 90 * Mathf.PI / 180f;
+			}
 		}
 	}
 
