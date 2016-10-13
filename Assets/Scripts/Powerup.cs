@@ -3,14 +3,7 @@ using System.Collections;
 
 public class Powerup : MonoBehaviour {
 
-	public enum Powerup_type {
-		Blue,
-		Yellow,
-		Green,
-		Grapple
-	}
-
-	public Powerup_type type;
+	public SphereColor type;
 
 	public bool ______________;
 
@@ -20,17 +13,14 @@ public class Powerup : MonoBehaviour {
 			foreach (Transform comp in child) {
 				Color color = Color.black;
 				switch (type) {
-				case Powerup_type.Blue:
+				case SphereColor.blue:
 					color = (Resources.Load ("Materials/SphereMatBlue") as Material).color;
 					break;
-				case Powerup_type.Green:
+				case SphereColor.green:
 					color = (Resources.Load ("Materials/SphereMatGreen") as Material).color;
 					break;
-				case Powerup_type.Yellow:
+				case SphereColor.yellow:
 					color = (Resources.Load ("Materials/SphereMatYellow") as Material).color;
-					break;
-				case Powerup_type.Grapple:
-				//transform.GetChild(0).GetComponent<Renderer> ().material = Resources.Load ("Materials/") as Material;
 					break;
 				}
 				comp.GetComponent<SpriteRenderer> ().color = color;
@@ -48,25 +38,23 @@ public class Powerup : MonoBehaviour {
 		if (coll.gameObject.tag == "Player") {
 			Destroy (this.gameObject);
 			switch (type) {
-			case Powerup_type.Blue:
+			case SphereColor.blue:
 				PlayerControl.instance.allowsBlue = true;
-				PlayerControl.instance.spRend1.color = new Color (0f, 0f, 1f);
-				PlayerControl.instance.trail1.material.SetColor ("_TintColor", new Color (0f, 0f, 1f));
+				//PlayerControl.instance.spRend1.color = new Color (0f, 0f, 1f);
+				//PlayerControl.instance.trail1.material.SetColor ("_TintColor", new Color (0f, 0f, 1f));
 				break;
-			case Powerup_type.Green:
+			case SphereColor.green:
 				PlayerControl.instance.allowsGreen = true;
-				PlayerControl.instance.spRend3.color = new Color (0f, 150f/255f, 0f);
-				PlayerControl.instance.trail3.material.SetColor ("_TintColor", new Color (0f, 150f/255f, 0f));
+				//PlayerControl.instance.spRend3.color = new Color (0f, 150f/255f, 0f);
+				//PlayerControl.instance.trail3.material.SetColor ("_TintColor", new Color (0f, 150f/255f, 0f));
 				break;
-			case Powerup_type.Yellow:
+			case SphereColor.yellow:
 				PlayerControl.instance.allowsYellow = true;
-				PlayerControl.instance.spRend2.color = new Color (1f, 1f, 0f);
-				PlayerControl.instance.trail2.material.SetColor ("_TintColor", new Color (1f, 1f, 0f));
-				break;
-			case Powerup_type.Grapple:
-				PlayerControl.instance.allowsGrapple = true;
+				//PlayerControl.instance.spRend2.color = new Color (1f, 1f, 0f);
+				//PlayerControl.instance.trail2.material.SetColor ("_TintColor", new Color (1f, 1f, 0f));
 				break;
 			}
+			PlayerControl.instance.playerColor = type;
 		}
 	}
 }

@@ -39,7 +39,6 @@ public class PlayerControl : MonoBehaviour {
 	public bool allowsGreen = false;
 	public bool allowsBlue = false;
 	public bool allowsYellow = false;
-	public bool allowsGrapple = false;
 	public bool canGrapple = true;
 	public bool grappling = false;
 	public bool _grappled = false;
@@ -99,7 +98,7 @@ public class PlayerControl : MonoBehaviour {
 
 		//////////Hook Indicator////////// 
 		// Get indicator angle and grapple
-		if ((Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) && allowsGrapple) {
+		if ((Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) && allowsGreen) {
 			pointAngle = 180f / Mathf.PI * Mathf.Atan2(Input.GetAxis(XInput.XboxRStickX), Input.GetAxis(XInput.XboxRStickY)) - 90;
 			hookSprite.enabled = true;
 
@@ -112,8 +111,10 @@ public class PlayerControl : MonoBehaviour {
 			hookSprite.enabled = false;
 		}
 
-		if (!XInput.x.LTDown() && !grappling) {
+		if (!XInput.x.LTDown () && !grappling && playerColor == SphereColor.green) {
 			canGrapple = true;
+		} else {
+			canGrapple = false;
 		}
 
 		// Rotate indicator
@@ -235,10 +236,10 @@ public class PlayerControl : MonoBehaviour {
 				switch (value) {
 				case SphereColor.red:
 					temp = new Color (1f, 0f, 0f);
-					if (spRend1.color == temp) {
+					if (spRend1.color == temp || spRend1.color == Color.white) {
 						spRend1.color = spRendMain.color;
 						trail1.material.SetColor ("_TintColor", spRendMain.color);
-					} else if (spRend2.color == temp) {
+					} else if (spRend2.color == temp || spRend1.color == Color.white) {
 						spRend2.color = spRendMain.color;
 						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
@@ -250,10 +251,10 @@ public class PlayerControl : MonoBehaviour {
 					break;
 				case SphereColor.blue:
 					temp = new Color (0f, 0f, 1f);
-					if (spRend1.color == temp) {
+					if (spRend1.color == temp || spRend1.color == Color.white) {
 						spRend1.color = spRendMain.color;
 						trail1.material.SetColor ("_TintColor", spRendMain.color);
-					} else if (spRend2.color == temp) {
+					} else if (spRend2.color == temp || spRend1.color == Color.white) {
 						spRend2.color = spRendMain.color;
 						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
@@ -265,10 +266,10 @@ public class PlayerControl : MonoBehaviour {
 					break;
 				case SphereColor.green:
 					temp = new Color (0f, 150f/255f, 0f);
-					if (spRend1.color == temp) {
+					if (spRend1.color == temp || spRend1.color == Color.white) {
 						spRend1.color = spRendMain.color;
 						trail1.material.SetColor ("_TintColor", spRendMain.color);
-					} else if (spRend2.color == temp) {
+					} else if (spRend2.color == temp || spRend1.color == Color.white) {
 						spRend2.color = spRendMain.color;
 						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
@@ -280,10 +281,10 @@ public class PlayerControl : MonoBehaviour {
 					break;
 				case SphereColor.yellow:
 					temp = new Color (1f, 1f, 0f);
-					if (spRend1.color == temp) {
+					if (spRend1.color == temp || spRend1.color == Color.white) {
 						spRend1.color = spRendMain.color;
 						trail1.material.SetColor ("_TintColor", spRendMain.color);
-					} else if (spRend2.color == temp) {
+					} else if (spRend2.color == temp || spRend1.color == Color.white) {
 						spRend2.color = spRendMain.color;
 						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
