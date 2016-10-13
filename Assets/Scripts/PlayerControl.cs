@@ -86,7 +86,7 @@ public class PlayerControl : MonoBehaviour {
 		if (grappled)
 			return;
 		
-		if (Input.GetButtonDown(XInput.XboxStart)) {
+		if (Input.GetButtonDown(XInput.XboxLB)) {
 			//fell, respawn at currentSpawnPoint
 			transform.position = currentSpawnPoint;
 		}
