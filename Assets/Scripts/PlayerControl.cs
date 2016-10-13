@@ -16,8 +16,8 @@ public class PlayerControl : MonoBehaviour {
 	public float maxDrag = 10f;
 	public float maxFallSpeedYellow = -3f;
 	public Material[] playerMats;
-	public GameObject CoinText;
 	public GameObject grapplePrefab;
+	public GameObject coinText;
 
 	public bool ________________;
 
@@ -45,13 +45,15 @@ public class PlayerControl : MonoBehaviour {
 	public bool _grappled = false;
 	public Grapple hookObj;
 
-	private int coinCount = 0;
+	public int coinCount = 0;
 
 	RigidbodyConstraints normal, frozen;
 
 	void Start () {
 		// Get components
 		instance = this;
+		coinCount = 0;
+		coinText.GetComponent<Text> ().text = "" + coinCount;
 		spRendMain = GameObject.Find ("Player").transform.Find ("SpriteMain").GetComponent<SpriteRenderer> ();
 		spRend1 = GameObject.Find ("Player").transform.Find ("Sprite1").GetComponent<SpriteRenderer> ();
 		spRend2 = GameObject.Find ("Player").transform.Find ("Sprite2").GetComponent<SpriteRenderer> ();
@@ -305,9 +307,6 @@ public class PlayerControl : MonoBehaviour {
 	void OnTriggerEnter(Collider coll) {
 		if (coll.gameObject.tag == "Coin") {
 			//add coin to player
-			coinCount++;
-			CoinText.GetComponent<Text> ().text = "Coins: " + coinCount;
-			Destroy (coll.gameObject);
 		} else if (coll.gameObject.tag == "Checkpoint") {
 			currentSpawnPoint = coll.transform.position;
 		} else if (grappled) {
