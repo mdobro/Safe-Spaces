@@ -7,7 +7,7 @@ public class Coin : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		CoinText = GameObject.Find ("Canvas").transform.Find ("Coin Text").gameObject;
+		CoinText = GameObject.Find ("Game Overlay").transform.Find ("Coin Text").gameObject;
 	}
 	
 	// Update is called once per frame
