@@ -17,6 +17,7 @@ public class PlayerControl : MonoBehaviour {
 	public float maxFallSpeedYellow = -3f;
 	public Material[] playerMats;
 	public GameObject CoinText;
+	public GameObject grapplePrefab;
 
 	public bool ________________;
 
@@ -34,13 +35,19 @@ public class PlayerControl : MonoBehaviour {
 	public float pointAngle = 0f;
 	LayerMask[] groundLayerMask;
 	SpriteRenderer hookSprite;
-	GameObject playerHook;
+	public GameObject playerHook;
 	public bool allowsGreen = false;
 	public bool allowsBlue = false;
 	public bool allowsYellow = false;
 	public bool allowsGrapple = false;
+	public bool canGrapple = true;
+	public bool grappling = false;
+	public bool _grappled = false;
+	public Grapple hookObj;
 
 	private int coinCount = 0;
+
+	RigidbodyConstraints normal, frozen;
 
 	void Start () {
 		// Get components
@@ -62,12 +69,22 @@ public class PlayerControl : MonoBehaviour {
 		groundLayerMask [2] = LayerMask.GetMask ("Object_Default", "Object_Green");
 		groundLayerMask [3] = LayerMask.GetMask ("Object_Default", "Object_Yellow");
 
+		normal = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY | RigidbodyConstraints.FreezePositionZ;
+		frozen = RigidbodyConstraints.FreezePosition | RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+
 		currentSpawnPoint = transform.position;
 
 	}
 
 	void Update () {
+		if (GameObject.Find ("GrapplingHook(Clone)") == null) {
+			grappled = false;
+			grappling = false;
+		}
 
+		if (grappled)
+			return;
+		
 		if (Input.GetButtonDown(XInput.XboxStart)) {
 			//fell, respawn at currentSpawnPoint
 			transform.position = currentSpawnPoint;
@@ -79,12 +96,22 @@ public class PlayerControl : MonoBehaviour {
 		if (Input.GetButtonDown (XInput.XboxY) && allowsYellow) playerColor = SphereColor.yellow;
 
 		//////////Hook Indicator////////// 
-		// Get indicator angle
-		if (Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) {
+		// Get indicator angle and grapple
+		if ((Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) && allowsGrapple) {
 			pointAngle = 180f / Mathf.PI * Mathf.Atan2(Input.GetAxis(XInput.XboxRStickX), Input.GetAxis(XInput.XboxRStickY)) - 90;
 			hookSprite.enabled = true;
+
+			if (canGrapple && !grappling && XInput.x.LTDown ()) {
+				grappling = true;
+				canGrapple = false;
+				Instantiate (grapplePrefab);
+			}
 		} else {
 			hookSprite.enabled = false;
+		}
+
+		if (!XInput.x.LTDown() && !grappling) {
+			canGrapple = true;
 		}
 
 		// Rotate indicator
@@ -92,6 +119,9 @@ public class PlayerControl : MonoBehaviour {
 	}
 	
 	void FixedUpdate () {
+		if (grappled)
+			return;
+		
 		// Update grounded
 		grounded = Physics.Raycast (transform.position, Vector3.down, GetComponent<SphereCollider> ().radius * 1.1f, groundLayerMask [(int)playerColor]);
 		walledLeft = Physics.Raycast (transform.position, Vector3.left, GetComponent<SphereCollider> ().radius * 1.1f, groundLayerMask [(int)playerColor]);
@@ -176,6 +206,20 @@ public class PlayerControl : MonoBehaviour {
 			Vector3 vec = rigid.velocity;
 			vec.y = vec.y / 3;
 			rigid.velocity = vec;
+		}
+	}
+
+	public bool grappled {
+		get { return _grappled; }
+		set { if (value == _grappled)
+				return;
+			if (value) {
+				rigid.constraints = frozen;
+				rigid.velocity = Vector3.zero;
+			} else {
+				rigid.constraints = normal;
+			}
+			_grappled = value;
 		}
 	}
 
@@ -266,6 +310,9 @@ public class PlayerControl : MonoBehaviour {
 			Destroy (coll.gameObject);
 		} else if (coll.gameObject.tag == "Checkpoint") {
 			currentSpawnPoint = coll.transform.position;
+		} else if (grappled) {
+			grappled = false;
+			hookObj.DestroyAll ();
 		}
 	}
 }
