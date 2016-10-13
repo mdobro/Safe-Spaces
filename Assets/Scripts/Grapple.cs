@@ -8,7 +8,7 @@ public class Grapple : MonoBehaviour {
 
 	public float pointAngle = 0f;
 	float moveSpeed = 10f;
-	float maxDistance = 5f;
+	float maxDistance = 10f;
 	GameObject hookPosition;
 	GameObject rope;
 
