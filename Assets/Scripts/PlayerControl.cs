@@ -18,6 +18,7 @@ public class PlayerControl : MonoBehaviour {
 	public Material[] playerMats;
 	public GameObject grapplePrefab;
 	public GameObject coinText;
+	public GameObject jumpParticlePrefab;
 
 	public bool ________________;
 
@@ -158,6 +159,12 @@ public class PlayerControl : MonoBehaviour {
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed;
 			rigid.velocity = vec;
+
+			if (grounded) {
+				// Start Particle Effect
+				GameObject pe = Instantiate(jumpParticlePrefab, new Vector3(transform.position.x, transform.position.y  - GetComponent<SphereCollider>().radius, transform.position.z), Quaternion.identity) as GameObject;
+				Destroy (pe, 0.5f);
+			}
 		}
 
 		// Double jump if blue
@@ -181,6 +188,10 @@ public class PlayerControl : MonoBehaviour {
 		// Wall jump left
 		if (XInput.x.RTDown () && walledLeft) {
 			jumping = 1;
+
+			GameObject pe = Instantiate(jumpParticlePrefab, new Vector3(transform.position.x - GetComponent<SphereCollider>().radius, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+			Destroy (pe, 0.5f);
+
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed / 1.155f;
 			if (vec.x < jumpSpeed / 2f) {
@@ -194,6 +205,10 @@ public class PlayerControl : MonoBehaviour {
 		// Wall jump right
 		if (XInput.x.RTDown () && walledRight) {
 			jumping = 1;
+
+			GameObject pe = Instantiate(jumpParticlePrefab, new Vector3(transform.position.x + GetComponent<SphereCollider>().radius, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
+			Destroy (pe, 0.5f);
+
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed;
 			if (vec.x > -jumpSpeed / 2f) {
@@ -310,9 +325,19 @@ public class PlayerControl : MonoBehaviour {
 			//add coin to player
 		} else if (coll.gameObject.tag == "Checkpoint") {
 			currentSpawnPoint = coll.transform.position;
-		} else if (grappled) {
+		} else if (coll.gameObject.tag == "Ground") {
+			if (grappled) {
 			grappled = false;
 			hookObj.DestroyAll ();
+			}
+		}
+	}
+
+	void OnCollisionEnter(Collision coll) {
+		if (coll.gameObject.tag == "Ground") {
+			// Start Particle Effect
+			GameObject pe = Instantiate(jumpParticlePrefab, coll.contacts[0].point, Quaternion.identity) as GameObject;
+			Destroy (pe, 0.5f);
 		}
 	}
 }
