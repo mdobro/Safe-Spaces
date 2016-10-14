@@ -3,6 +3,10 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Coin : MonoBehaviour {
+	public GameObject CoinParticlePrefab;
+
+	public bool ________________;
+
 	public GameObject CoinText;
 
 	// Use this for initialization
@@ -16,6 +20,11 @@ public class Coin : MonoBehaviour {
 			//add coin to player
 			PlayerControl.instance.coinCount++;
 			CoinText.GetComponent<Text> ().text = "" + PlayerControl.instance.coinCount/2;
+
+			// Start Particle Effect
+			Object pe = Instantiate(CoinParticlePrefab, transform.position, Quaternion.identity);
+			Destroy (pe, 0.5f);
+
 			Destroy (this.gameObject);
 		}
 	}

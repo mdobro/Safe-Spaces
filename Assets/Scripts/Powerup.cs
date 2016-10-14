@@ -4,6 +4,7 @@ using System.Collections;
 public class Powerup : MonoBehaviour {
 
 	public SphereColor type;
+	public GameObject PowerupParticlePrefab;
 
 	public bool ______________;
 
@@ -36,7 +37,6 @@ public class Powerup : MonoBehaviour {
 	void OnTriggerEnter(Collider coll) {
 		//give player powerup
 		if (coll.gameObject.tag == "Player") {
-			Destroy (this.gameObject);
 			switch (type) {
 			case SphereColor.blue:
 				PlayerControl.instance.allowsBlue = true;
@@ -55,6 +55,15 @@ public class Powerup : MonoBehaviour {
 				break;
 			}
 			PlayerControl.instance.playerColor = type;
+
+			// Start Particle Effect
+			GameObject pe = Instantiate(PowerupParticlePrefab, transform.position, Quaternion.identity) as GameObject;
+			Destroy (pe, 0.5f);
+
+			// Change Particle Colors
+			pe.GetComponent<ParticleSystem> ().startColor = PlayerControl.instance.spRendMain.color;
+
+			Destroy (this.gameObject);
 		}
 	}
 }
