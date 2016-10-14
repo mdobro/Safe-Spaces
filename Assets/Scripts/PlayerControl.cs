@@ -91,14 +91,14 @@ public class PlayerControl : MonoBehaviour {
 			transform.position = currentSpawnPoint;
 		}
 		// Update colors
-		if (Input.GetButtonDown (XInput.XboxA) && allowsGreen) playerColor = SphereColor.green;
-		if (Input.GetButtonDown (XInput.XboxB)) playerColor = SphereColor.red;
-		if (Input.GetButtonDown (XInput.XboxX) && allowsBlue) playerColor = SphereColor.blue;
-		if (Input.GetButtonDown (XInput.XboxY) && allowsYellow) playerColor = SphereColor.yellow;
+		if (Input.GetButtonDown (XInput.XboxA) && allowsGreen && !Utility.instance.paused) playerColor = SphereColor.green;
+		if (Input.GetButtonDown (XInput.XboxB) && !Utility.instance.paused) playerColor = SphereColor.red;
+		if (Input.GetButtonDown (XInput.XboxX) && allowsBlue && !Utility.instance.paused) playerColor = SphereColor.blue;
+		if (Input.GetButtonDown (XInput.XboxY) && allowsYellow && !Utility.instance.paused) playerColor = SphereColor.yellow;
 
 		//////////Hook Indicator////////// 
 		// Get indicator angle and grapple
-		if ((Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) && allowsGreen) {
+		if ((Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) && playerColor == SphereColor.green) {
 			pointAngle = 180f / Mathf.PI * Mathf.Atan2(Input.GetAxis(XInput.XboxRStickX), Input.GetAxis(XInput.XboxRStickY)) - 90;
 			hookSprite.enabled = true;
 

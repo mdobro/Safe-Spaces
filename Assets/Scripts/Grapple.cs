@@ -22,6 +22,7 @@ public class Grapple : MonoBehaviour {
 		transform.eulerAngles = new Vector3 (0f, 0f, pointAngle);
 		origin = transform.position;
 		PlayerControl.instance.hookObj = this;
+		transform.rotation = PlayerControl.instance.playerHook.transform.rotation;
 		rope = Instantiate (grappleRope);
 	}
 	

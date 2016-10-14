@@ -11,13 +11,15 @@ public class Utility : MonoBehaviour {
 	bool _paused = false;
 	bool moveMenu = true;
 
+	static public Utility instance;
+
 
 	int _menuItem = -1;
 
 
 	// Use this for initialization
 	void Start () {
-		//gameOverlay = GameObject.Find ("Game Overlay");
+		instance = this;
 		pauseOverlay = GameObject.Find ("Pause Overlay");
 		pauseOverlay.SetActive (false);
 		menuItem0 = pauseOverlay.transform.Find ("Text").GetComponent<Text> ();
@@ -63,7 +65,7 @@ public class Utility : MonoBehaviour {
 		}
 	}
 
-	bool paused {
+	public bool paused {
 		get { return _paused; }
 		set {
 			if (value == _paused)
