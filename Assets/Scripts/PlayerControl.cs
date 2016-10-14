@@ -47,7 +47,7 @@ public class PlayerControl : MonoBehaviour {
 
 	public int coinCount = 0;
 
-	RigidbodyConstraints normal, frozen;
+	public RigidbodyConstraints normal, frozen;
 
 	void Start () {
 		// Get components
