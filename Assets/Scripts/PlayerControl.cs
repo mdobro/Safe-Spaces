@@ -239,7 +239,7 @@ public class PlayerControl : MonoBehaviour {
 					if (spRend1.color == temp || spRend1.color == Color.white) {
 						spRend1.color = spRendMain.color;
 						trail1.material.SetColor ("_TintColor", spRendMain.color);
-					} else if (spRend2.color == temp || spRend1.color == Color.white) {
+					} else if (spRend2.color == temp || spRend2.color == Color.white) {
 						spRend2.color = spRendMain.color;
 						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
@@ -254,7 +254,7 @@ public class PlayerControl : MonoBehaviour {
 					if (spRend1.color == temp || spRend1.color == Color.white) {
 						spRend1.color = spRendMain.color;
 						trail1.material.SetColor ("_TintColor", spRendMain.color);
-					} else if (spRend2.color == temp || spRend1.color == Color.white) {
+					} else if (spRend2.color == temp || spRend2.color == Color.white) {
 						spRend2.color = spRendMain.color;
 						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
@@ -265,11 +265,11 @@ public class PlayerControl : MonoBehaviour {
 					gameObject.layer = 9;
 					break;
 				case SphereColor.green:
-					temp = new Color (0f, 150f/255f, 0f);
+					temp = new Color (0f, 125f/255f, 0f);
 					if (spRend1.color == temp || spRend1.color == Color.white) {
 						spRend1.color = spRendMain.color;
 						trail1.material.SetColor ("_TintColor", spRendMain.color);
-					} else if (spRend2.color == temp || spRend1.color == Color.white) {
+					} else if (spRend2.color == temp || spRend2.color == Color.white) {
 						spRend2.color = spRendMain.color;
 						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
@@ -284,7 +284,7 @@ public class PlayerControl : MonoBehaviour {
 					if (spRend1.color == temp || spRend1.color == Color.white) {
 						spRend1.color = spRendMain.color;
 						trail1.material.SetColor ("_TintColor", spRendMain.color);
-					} else if (spRend2.color == temp || spRend1.color == Color.white) {
+					} else if (spRend2.color == temp || spRend2.color == Color.white) {
 						spRend2.color = spRendMain.color;
 						trail2.material.SetColor ("_TintColor", spRendMain.color);
 					} else {
