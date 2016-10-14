@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Powerup : MonoBehaviour {
@@ -37,23 +38,31 @@ public class Powerup : MonoBehaviour {
 	void OnTriggerEnter(Collider coll) {
 		//give player powerup
 		if (coll.gameObject.tag == "Player") {
+			GameObject notification = Resources.Load ("Prefabs/Notification") as GameObject;
+			Text title = notification.transform.FindChild ("Title").GetComponent<Text> ();
+			Text description = notification.transform.FindChild ("Description").GetComponent<Text> ();
 			switch (type) {
 			case SphereColor.blue:
 				PlayerControl.instance.allowsBlue = true;
-				//PlayerControl.instance.spRend1.color = new Color (0f, 0f, 1f);
-				//PlayerControl.instance.trail1.material.SetColor ("_TintColor", new Color (0f, 0f, 1f));
+				//display notification
+				title.text = "Blue Powerup";
+				description.text = "While blue, the ball can double jump. Hit the right trigger in the air to double jump.";
 				break;
 			case SphereColor.green:
 				PlayerControl.instance.allowsGreen = true;
-				//PlayerControl.instance.spRend3.color = new Color (0f, 150f/255f, 0f);
-				//PlayerControl.instance.trail3.material.SetColor ("_TintColor", new Color (0f, 150f/255f, 0f));
+				//display notification
+				title.text = "Green Powerup";
+				description.text = "While green, the ball can use the grappling hook. Push the right stick in the desired direction and hit the left trigger to fire the grapple.";
 				break;
 			case SphereColor.yellow:
 				PlayerControl.instance.allowsYellow = true;
-				//PlayerControl.instance.spRend2.color = new Color (1f, 1f, 0f);
-				//PlayerControl.instance.trail2.material.SetColor ("_TintColor", new Color (1f, 1f, 0f));
+				//display notification
+				title.text = "Yellow Powerup";
+				description.text = "While yellow, the ball can glide. Hold the right trigger in the air to glide.";
 				break;
 			}
+			description.text += "\n\nPress A to dismiss.";
+			Instantiate (notification);
 			PlayerControl.instance.playerColor = type;
 
 			// Start Particle Effect
