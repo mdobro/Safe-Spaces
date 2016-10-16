@@ -18,7 +18,6 @@ public class Checkpoint : MonoBehaviour {
 		targetDown = flag.transform.position;
 		targetUp = flag.transform.position;
 		targetUp.y += 1;
-		Debug.Log ("" + targetUp.x + " " + targetUp.y);
 	}
 
 	void Update() {

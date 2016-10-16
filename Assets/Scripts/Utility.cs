@@ -32,16 +32,24 @@ public class Utility : MonoBehaviour {
 	void Update () {
 		if (Input.GetButtonDown(XInput.XboxStart)) {
 			paused = !paused;
+			if (paused) {
+				pauseOverlay.SetActive (true);
+				menuItem = 0;
+			} else {
+				pauseOverlay.SetActive (false);
+			}
 		}
 
 		if (paused) {
 			if (Input.GetButtonDown (XInput.XboxA)) {
 				paused = false;
+				pauseOverlay.SetActive (false);
 				if (menuItem == 0) {
 					// Do nothing
 				}
 				else if (menuItem == 1) {
 					PlayerControl.instance.transform.position = PlayerControl.instance.currentSpawnPoint;
+					PlayerControl.instance.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 				} else if (menuItem == 2) {
 					SceneManager.LoadScene ("_Scene_0");
 				}
@@ -74,12 +82,9 @@ public class Utility : MonoBehaviour {
 			switch (value) {
 			case true:
 				Time.timeScale = 0;
-				menuItem = 0;
-				pauseOverlay.SetActive (true);
 				break;
 			case false:
 				Time.timeScale = 1;
-				pauseOverlay.SetActive (false);
 				break;
 			}
 

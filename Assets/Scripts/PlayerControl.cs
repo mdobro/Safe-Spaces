@@ -87,9 +87,10 @@ public class PlayerControl : MonoBehaviour {
 		if (grappled)
 			return;
 		
-		if (Input.GetButtonDown(XInput.XboxLB)) {
+		if (Input.GetButtonDown(XInput.XboxLB) && !Utility.instance.paused) {
 			//fell, respawn at currentSpawnPoint
 			transform.position = currentSpawnPoint;
+			rigid.velocity = Vector3.zero;
 		}
 		// Update colors
 		if (Input.GetButtonDown (XInput.XboxA) && allowsGreen && !Utility.instance.paused) playerColor = SphereColor.green;
