@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Grapple : MonoBehaviour {
 	public GameObject grappleRope;
+	public static Grapple instance;
 
 	public bool ________________;
 
@@ -16,6 +17,7 @@ public class Grapple : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		instance = this;
 		hookPosition = GameObject.Find ("HookedIndicator").transform.Find ("Sprite").gameObject;
 		pointAngle = PlayerControl.instance.pointAngle * Mathf.PI / 180f;
 		transform.position = hookPosition.transform.position;
@@ -44,13 +46,18 @@ public class Grapple : MonoBehaviour {
 			if ((transform.position - origin).magnitude > maxDistance || (transform.position - PlayerControl.instance.transform.position).magnitude > maxDistance) {
 				DestroyAll();
 			}
+
+			// Set Rotation
+			float hookAngle = -180f / Mathf.PI * Mathf.Atan2((transform.position - PlayerControl.instance.gameObject.transform.position).x, (transform.position - PlayerControl.instance.gameObject.transform.position).y) + 90;
+			transform.eulerAngles = new Vector3(0f, 0f, hookAngle);
 		}
 	}
 
 	void OnTriggerEnter (Collider coll) {
 		if (coll.gameObject.tag == "Ground") {
-				PlayerControl.instance.grappled = true;
-				pointAngle = -Mathf.Atan2 ((PlayerControl.instance.gameObject.transform.position - transform.position).x, (PlayerControl.instance.gameObject.transform.position - transform.position).y) - 90 * Mathf.PI / 180f;
+			PlayerControl.instance.grappled = true;
+			PlayerControl.instance.hookSprite.enabled = false;
+			pointAngle = -Mathf.Atan2 ((PlayerControl.instance.gameObject.transform.position - transform.position).x, (PlayerControl.instance.gameObject.transform.position - transform.position).y) - 90 * Mathf.PI / 180f;
 		}
 	}
 

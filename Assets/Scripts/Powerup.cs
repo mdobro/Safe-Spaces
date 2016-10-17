@@ -49,19 +49,19 @@ public class Powerup : MonoBehaviour {
 				PlayerControl.instance.allowsBlue = true;
 				//display notification
 				title.text = "Blue Powerup";
-				description.text = "While blue, the ball can double jump. Hit the right trigger in the air to double jump.";
+				description.text = "While blue, you can double jump. Hit the right trigger in the air to double jump.";
 				break;
 			case SphereColor.green:
 				PlayerControl.instance.allowsGreen = true;
 				//display notification
 				title.text = "Green Powerup";
-				description.text = "While green, the ball can use the grappling hook. Push the right stick in the desired direction and hit the left trigger to fire the grapple.";
+				description.text = "While green, you can use the grappling hook. Push the right stick in the desired direction and hit the left trigger to fire the grapple.";
 				break;
 			case SphereColor.yellow:
 				PlayerControl.instance.allowsYellow = true;
 				//display notification
 				title.text = "Yellow Powerup";
-				description.text = "While yellow, the ball can glide. Hold the right trigger in the air to glide.";
+				description.text = "While yellow, you can glide. Hold the right trigger in the air to glide.";
 				break;
 			}
 			description.text += "\n\nPress A to dismiss.";

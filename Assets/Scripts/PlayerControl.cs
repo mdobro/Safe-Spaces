@@ -35,7 +35,7 @@ public class PlayerControl : MonoBehaviour {
 	public float jumping = 0f;
 	public float pointAngle = 0f;
 	LayerMask[] groundLayerMask;
-	SpriteRenderer hookSprite;
+	public SpriteRenderer hookSprite;
 	public GameObject playerHook;
 	public bool allowsGreen = false;
 	public bool allowsBlue = false;
@@ -100,7 +100,7 @@ public class PlayerControl : MonoBehaviour {
 
 		//////////Hook Indicator////////// 
 		// Get indicator angle and grapple
-		if ((Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) && playerColor == SphereColor.green) {
+		if ((Mathf.Abs(Input.GetAxis (XInput.XboxRStickX)) > 0.05f || Mathf.Abs(Input.GetAxis (XInput.XboxRStickY)) > 0.05f) && playerColor == SphereColor.green && !grappling) {
 			pointAngle = 180f / Mathf.PI * Mathf.Atan2(Input.GetAxis(XInput.XboxRStickX), Input.GetAxis(XInput.XboxRStickY)) - 90;
 			hookSprite.enabled = true;
 
@@ -138,11 +138,7 @@ public class PlayerControl : MonoBehaviour {
 
 		//////////Player Movement//////////
 		Vector3 moveDir = new Vector3 (Input.GetAxis (XInput.XboxLStickX), 0, 0);
-//		if (!grounded) {
-//			rigid.drag = 0;
-//		} else {
-//			rigid.drag = Mathf.Lerp (maxDrag, 0, moveDir.magnitude);
-//		}
+
 		float forceApp = 0;
 		if ((rigid.velocity.x > 0 && moveDir.x < 0) || (rigid.velocity.x < 0 && moveDir.x > 0)) {
 			forceApp = 1;
