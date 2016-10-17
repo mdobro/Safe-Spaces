@@ -7,10 +7,12 @@ public class Coin : MonoBehaviour {
 
 	public bool ________________;
 
+	public static int coinCount = 0;
 	public GameObject CoinText;
 
 	// Use this for initialization
 	void Start () {
+		coinCount++;
 		CoinText = GameObject.Find ("Game Overlay").transform.Find ("Coin Text").gameObject;
 	}
 	

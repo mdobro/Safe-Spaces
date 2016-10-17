@@ -8,10 +8,11 @@ public class Grapple : MonoBehaviour {
 	public bool ________________;
 
 	public float pointAngle = 0f;
-	float moveSpeed = 10f;
+	float moveSpeed = 12f;
 	float maxDistance = 10f;
 	GameObject hookPosition;
 	GameObject rope;
+	bool destroyGrapple = false;
 
 	Vector3 origin;
 
@@ -26,6 +27,17 @@ public class Grapple : MonoBehaviour {
 		PlayerControl.instance.hookObj = this;
 		transform.rotation = PlayerControl.instance.playerHook.transform.rotation;
 		rope = Instantiate (grappleRope);
+	}
+
+	void Update () {
+		// Destroy grapple and allow regrapple
+		if (!XInput.x.LTDown () && destroyGrapple == false) {
+			destroyGrapple = true;
+		}
+
+		if (XInput.x.LTDown () && destroyGrapple == true) {
+			DestroyAll ();
+		}
 	}
 	
 	// Update is called once per frame

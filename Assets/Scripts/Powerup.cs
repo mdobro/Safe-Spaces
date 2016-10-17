@@ -67,7 +67,7 @@ public class Powerup : MonoBehaviour {
 			description.text += "\n\nPress A to dismiss.";
 			if (black_powerup) {
 				title.text = "Level Complete!";
-				description.text = "You collected " + PlayerControl.instance.coinCount/2 + " coins out of 125.\n\nPress A to restart the level";
+				description.text = "You collected " + PlayerControl.instance.coinCount/2 + " coins out of " + Coin.coinCount + ".\n\nPress A to restart the level";
 				notification.GetComponent<Notification> ().restartGame = true;
 			}
 			Instantiate (notification);
