@@ -70,6 +70,8 @@ public class Grapple : MonoBehaviour {
 			PlayerControl.instance.grappled = true;
 			PlayerControl.instance.hookSprite.enabled = false;
 			pointAngle = -Mathf.Atan2 ((PlayerControl.instance.gameObject.transform.position - transform.position).x, (PlayerControl.instance.gameObject.transform.position - transform.position).y) - 90 * Mathf.PI / 180f;
+		} else if (coll.gameObject.tag == "Player") {
+			DestroyAll ();
 		}
 	}
 
