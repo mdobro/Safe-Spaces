@@ -49,25 +49,25 @@ public class Powerup : MonoBehaviour {
 				PlayerControl.instance.allowsBlue = true;
 				//display notification
 				title.text = "Blue Powerup";
-				description.text = "While blue, you can double jump. Hit the right trigger in the air to double jump.";
+				description.text = "While blue, you can double jump. Press the right trigger in the air to double jump.";
 				break;
 			case SphereColor.green:
 				PlayerControl.instance.allowsGreen = true;
 				//display notification
 				title.text = "Green Powerup";
-				description.text = "While green, you can use the grappling hook. Push the right stick in the desired direction and hit the left trigger to fire the grapple.";
+				description.text = "While green, you can use the grappling hook. Push the right stick in the desired direction and press the left trigger to fire the grapple.";
 				break;
 			case SphereColor.yellow:
 				PlayerControl.instance.allowsYellow = true;
 				//display notification
 				title.text = "Yellow Powerup";
-				description.text = "While yellow, you can glide. Hold the right trigger in the air to glide.";
+				description.text = "While yellow, you can glide. Hold the right trigger down in the air to glide.";
 				break;
 			}
 			description.text += "\n\nPress A to dismiss.";
 			if (black_powerup) {
-				title.text = "Level Complete!";
-				description.text = "You collected " + PlayerControl.instance.coinCount/2 + " coins out of " + Coin.coinCount + ".\n\nPress A to restart the level";
+				title.text = "Congratulations!";
+				description.text = "You collected " + PlayerControl.instance.coinCount/2 + " coins out of " + Coin.coinCount + ".\n\nPress A to restart";
 				notification.GetComponent<Notification> ().restartGame = true;
 			}
 			Instantiate (notification);
