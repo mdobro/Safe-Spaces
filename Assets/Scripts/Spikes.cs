@@ -3,10 +3,11 @@ using System.Collections;
 
 public class Spikes : MonoBehaviour {
 	public GameObject deathParticlePrefab;
+	AudioSource deathAudio;
 
 	// Use this for initialization
 	void Start () {
-	
+		deathAudio = GameObject.Find ("Audio").transform.Find ("Death").GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -19,7 +20,7 @@ public class Spikes : MonoBehaviour {
 			// Start Particle Effect
 			GameObject pe = Instantiate(deathParticlePrefab, PlayerControl.instance.transform.position, Quaternion.identity) as GameObject;
 			Destroy (pe, 0.5f);
-
+			deathAudio.Play ();
 			// Change Particle Colors
 			pe.GetComponent<ParticleSystem> ().startColor = PlayerControl.instance.spRendMain.color;
 

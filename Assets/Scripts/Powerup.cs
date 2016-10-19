@@ -7,11 +7,14 @@ public class Powerup : MonoBehaviour {
 	public SphereColor type;
 	public GameObject PowerupParticlePrefab;
 	public bool black_powerup = false;
+	AudioSource powerupAudio;
 
 	public bool ______________;
 
 	// Use this for initialization
 	void Start () {
+		powerupAudio = GameObject.Find ("Audio").transform.Find ("Powerup").GetComponent<AudioSource> ();
+
 		foreach (Transform child in transform.FindChild("Sprite")) {
 			foreach (Transform comp in child) {
 				Color color = Color.black;
@@ -82,5 +85,9 @@ public class Powerup : MonoBehaviour {
 
 			Destroy (this.gameObject);
 		}
+	}
+
+	void OnDestroy () {
+		powerupAudio.Play ();
 	}
 }

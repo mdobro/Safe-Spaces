@@ -7,6 +7,7 @@ public class Utility : MonoBehaviour {
 	GameObject gameOverlay;
 	GameObject pauseOverlay;
 	Text menuItem0, menuItem1, menuItem2;
+	AudioSource musicLoop, musicIntro;
 
 	bool _paused = false;
 	bool moveMenu = true;
@@ -19,6 +20,8 @@ public class Utility : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		musicLoop = GameObject.Find ("Audio").transform.Find ("MusicLoop").GetComponent<AudioSource> ();
+		musicIntro = GameObject.Find ("Audio").transform.Find ("MusicIntro").GetComponent<AudioSource> ();
 		instance = this;
 		pauseOverlay = GameObject.Find ("Pause Overlay");
 		pauseOverlay.SetActive (false);
@@ -26,6 +29,14 @@ public class Utility : MonoBehaviour {
 		menuItem1 = pauseOverlay.transform.Find ("Text (1)").GetComponent<Text> ();
 		menuItem2 = pauseOverlay.transform.Find ("Text (2)").GetComponent<Text> ();
 		menuItem = 0;
+
+		musicIntro.Play ();
+		Invoke ("PlayLoop", 24f);
+		//PlayLoop ();
+	}
+
+	void PlayLoop () {
+		musicLoop.Play ();
 	}
 	
 	// Update is called once per frame

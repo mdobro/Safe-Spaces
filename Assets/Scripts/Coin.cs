@@ -4,6 +4,7 @@ using System.Collections;
 
 public class Coin : MonoBehaviour {
 	public GameObject CoinParticlePrefab;
+	AudioSource coinAudio;
 
 	public bool ________________;
 
@@ -14,6 +15,7 @@ public class Coin : MonoBehaviour {
 	void Start () {
 		coinCount++;
 		CoinText = GameObject.Find ("Game Overlay").transform.Find ("Coin Text").gameObject;
+		coinAudio = GameObject.Find ("Audio").transform.Find ("Coin").GetComponent<AudioSource> ();
 	}
 	
 	// Update is called once per frame
@@ -29,5 +31,9 @@ public class Coin : MonoBehaviour {
 
 			Destroy (this.gameObject);
 		}
+	}
+
+	void OnDestroy () {
+		coinAudio.Play ();
 	}
 }

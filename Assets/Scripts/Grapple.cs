@@ -4,6 +4,7 @@ using System.Collections;
 public class Grapple : MonoBehaviour {
 	public GameObject grappleRope;
 	public static Grapple instance;
+	AudioSource grappleHitAudio, grappleShootAudio;
 
 	public bool ________________;
 
@@ -20,6 +21,8 @@ public class Grapple : MonoBehaviour {
 	void Start () {
 		instance = this;
 		hookPosition = GameObject.Find ("HookedIndicator").transform.Find ("Sprite").gameObject;
+		grappleHitAudio = GameObject.Find ("Audio").transform.Find ("GrappleHit").GetComponent<AudioSource> ();
+		grappleShootAudio = GameObject.Find ("Audio").transform.Find ("GrappleShoot").GetComponent<AudioSource> ();
 		pointAngle = PlayerControl.instance.pointAngle * Mathf.PI / 180f;
 		transform.position = hookPosition.transform.position;
 		transform.eulerAngles = new Vector3 (0f, 0f, pointAngle);
@@ -27,6 +30,7 @@ public class Grapple : MonoBehaviour {
 		PlayerControl.instance.hookObj = this;
 		transform.rotation = PlayerControl.instance.playerHook.transform.rotation;
 		rope = Instantiate (grappleRope);
+		grappleShootAudio.Play ();
 	}
 
 	void Update () {
@@ -67,6 +71,7 @@ public class Grapple : MonoBehaviour {
 
 	void OnTriggerEnter (Collider coll) {
 		if (coll.gameObject.tag == "Ground") {
+			grappleHitAudio.Play ();
 			PlayerControl.instance.grappled = true;
 			PlayerControl.instance.hookSprite.enabled = false;
 			pointAngle = -Mathf.Atan2 ((PlayerControl.instance.gameObject.transform.position - transform.position).x, (PlayerControl.instance.gameObject.transform.position - transform.position).y) - 90 * Mathf.PI / 180f;

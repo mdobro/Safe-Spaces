@@ -39,11 +39,11 @@ public class Checkpoint : MonoBehaviour {
 		if (coll.gameObject.tag == "Player") {
 			flagRaised = true;
 
-			for (int i = 0; i < flagList.Count; i++) {
+			/*for (int i = 0; i < flagList.Count; i++) {
 				if (flagList [i] != this.gameObject) {
 					flagList [i].GetComponent<Checkpoint> ().flagRaised = false;
 				}
-			}
+			}*/
 		}
 	}
 

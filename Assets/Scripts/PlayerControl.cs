@@ -19,6 +19,7 @@ public class PlayerControl : MonoBehaviour {
 	public GameObject grapplePrefab;
 	public GameObject coinText;
 	public GameObject jumpParticlePrefab;
+	AudioSource jumpAudio;
 
 	public bool ________________;
 
@@ -64,6 +65,7 @@ public class PlayerControl : MonoBehaviour {
 		rigid = GetComponent<Rigidbody> ();
 		playerHook = GameObject.Find ("HookedIndicator");
 		hookSprite = playerHook.transform.Find ("Sprite").GetComponent<SpriteRenderer> ();
+		jumpAudio = GameObject.Find ("Audio").transform.Find ("Jump").GetComponent<AudioSource> ();
 
 		groundLayerMask = new LayerMask[4];
 		groundLayerMask [0] = LayerMask.GetMask ("Object_Default", "Object_Red");
@@ -152,6 +154,7 @@ public class PlayerControl : MonoBehaviour {
 		//////////Player jumping//////////
 		// Normal jump
 		if (XInput.x.RTDown() && jumping == 0) {
+			jumpAudio.Play ();
 			jumping = 1;
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed;
@@ -170,6 +173,7 @@ public class PlayerControl : MonoBehaviour {
 		}
 		if (XInput.x.RTDown () && jumping == 2 && !grounded && !walledLeft && !walledRight && playerColor == SphereColor.blue) {
 			jumping = 3;
+			jumpAudio.Play ();
 			Vector3 vec = rigid.velocity;
 			vec.y = jumpSpeed / 1.7f;
 			rigid.velocity = vec;
@@ -185,7 +189,7 @@ public class PlayerControl : MonoBehaviour {
 		// Wall jump left
 		if (XInput.x.RTDown () && walledLeft) {
 			jumping = 1;
-
+			jumpAudio.Play ();
 			GameObject pe = Instantiate(jumpParticlePrefab, new Vector3(transform.position.x - GetComponent<SphereCollider>().radius, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
 			Destroy (pe, 0.5f);
 
@@ -202,7 +206,7 @@ public class PlayerControl : MonoBehaviour {
 		// Wall jump right
 		if (XInput.x.RTDown () && walledRight) {
 			jumping = 1;
-
+			jumpAudio.Play ();
 			GameObject pe = Instantiate(jumpParticlePrefab, new Vector3(transform.position.x + GetComponent<SphereCollider>().radius, transform.position.y, transform.position.z), Quaternion.identity) as GameObject;
 			Destroy (pe, 0.5f);
 
