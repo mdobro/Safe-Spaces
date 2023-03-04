@@ -15,7 +15,7 @@ public class Powerup : MonoBehaviour {
 	void Start () {
 		powerupAudio = GameObject.Find ("Audio").transform.Find ("Powerup").GetComponent<AudioSource> ();
 
-		foreach (Transform child in transform.FindChild("Sprite")) {
+		foreach (Transform child in transform.Find("Sprite")) {
 			foreach (Transform comp in child) {
 				Color color = Color.black;
 				switch (type) {
@@ -45,8 +45,8 @@ public class Powerup : MonoBehaviour {
 		//give player powerup
 		if (coll.gameObject.tag == "Player") {
 			GameObject notification = Resources.Load ("Prefabs/Notification") as GameObject;
-			Text title = notification.transform.FindChild ("Title").GetComponent<Text> ();
-			Text description = notification.transform.FindChild ("Description").GetComponent<Text> ();
+			Text title = notification.transform.Find ("Title").GetComponent<Text> ();
+			Text description = notification.transform.Find ("Description").GetComponent<Text> ();
 			switch (type) {
 			case SphereColor.blue:
 				PlayerControl.instance.allowsBlue = true;

@@ -311,7 +311,7 @@ public class PlayerControl : MonoBehaviour {
 					gameObject.layer = 11;
 					break;
 				}
-				transform.FindChild("Light").GetComponent<Light> ().color = temp;
+				transform.Find("Light").GetComponent<Light> ().color = temp;
 				_playerColor = value;
 			}
 		}

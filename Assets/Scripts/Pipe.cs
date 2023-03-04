@@ -40,7 +40,7 @@ public class Pipe : MonoBehaviour {
 			PlayerControl.instance.currentRoomNumber++;
 			GameObject nextRoom = GameObject.Find ("Room_" + PlayerControl.instance.currentRoomNumber);
 			//find spawn point
-			Transform spawnPoint = nextRoom.transform.FindChild("Spawn_Point");
+			Transform spawnPoint = nextRoom.transform.Find("Spawn_Point");
 			//move player to spawn point
 			PlayerControl.instance.transform.position = spawnPoint.position;
 			PlayerControl.instance.currentSpawnPoint = spawnPoint.position;
